@@ -1,26 +1,12 @@
 import React from 'react';
-import MovieList from './MovieList.jsx';
+import ReactDOM from 'react-dom';
+
+
 
 class App extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            
-      }
+    render() {
+      return <h1>{movies}</h1>;
     }
-    render () {
-        return (
-            <div>
-                <div>
-                    Hello
-                </div>
-                <div>
-                 <MovieList movies={this.state.movies}/>
-                {/* {props.movies.map(movie => <MovieListItem movie={movie.title}/>)} */}
-                </div>
-            </div>
-        )
-    }
-}
+  }
 
-export default App; 
+export default App;

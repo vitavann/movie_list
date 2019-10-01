@@ -2,16 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App.jsx';
 
-
 var movies = [
-    {title: 'Mean Girls'},
-    {title: 'Hackers'},
-    {title: 'The Grey'},
-    {title: 'Sunshine'},
-    {title: 'Ex Machina'},
-  ];
+  {title: 'Mean Girls'},
+  {title: 'Hackers'},
+  {title: 'The Grey'},
+  {title: 'Sunshine'},
+  {title: 'Ex Machina'},
+];
 
-  var movieStrings = ['Means Girls', 'Hackers', 'The Grey', 'Sunshine', 'Ex Machina']
-  //MUST BE ARRAY BECAUSE IT CAN'T READ OBJECTS
+var movieTitles = ['Mean Girls', 'Hackers', 'The Grey', 'Sunshine', 'Ex Machina']
 
-ReactDOM.render(<App message = {'hello world'} data = {movies} testData = {movieStrings}/>, document.getElementById('app')); // class instatiator which allows us to pass properties
+ReactDOM.render(<h1>{movies.map((movie)=> <ul class='moviebox'>{movie.title}</ul>)}</h1>, document.getElementById('app'));

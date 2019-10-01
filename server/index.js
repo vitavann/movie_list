@@ -1,16 +1,12 @@
-// import express framework
 const express = require('express');
-const path = require('path');
-const controller = require('./controllers/controller.js')
-
-//set PORT# to listen on 
-const PORT = 3000;
-
-//create server 
 const app = express();
-// serve static files 
-app.use(express.static(path.join(__dirname, '../client/dist')));
-app.get('./movies', controller.getMovies);
+const path = require('path');
+const port = 3000;
 
-// start server 
-app.listen(PORT, () => console.log('express server started on', PORT));
+
+// app.get('/', (req, res) => res.send('wassup'));
+
+app.use(express.static(path.join(__dirname, '../client/dist')));
+
+app.listen(port, () => console.log(`App listening on ${port}`));
+
