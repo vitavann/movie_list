@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import movies from "./movieList.jsx";
+import MovieListItem from "./movieListItem.jsx";
 // import Axios from 'axios';
 // import LocalStorage from 'localstorage'
 
@@ -16,13 +17,15 @@ class App extends React.Component {
     this.state = {
       movies: movies, //movie array
       newMovie: "", //empty search field for add movie input
-      movie: "", //empty search field for searching option8gg8
-      watched: false
+      movie: "" //empty search field for searching option8gg8
+      //UNDO: uncomment this line below to undo what i've done
+      // watched: movies.watched
     };
     this.searchHandler = this.searchHandler.bind(this);
     this.movieHandler = this.movieHandler.bind(this);
     this.movieSubmit = this.movieSubmit.bind(this);
-    this.watched = this.watched.bind(this);
+    //UNDO: uncomment this line below to undo what i've done
+    // this.watched = this.watched.bind(this);
   }
 
   // componentDidMount() {
@@ -37,9 +40,10 @@ class App extends React.Component {
   //     })
   // }
 
-  watched(event) {
-    this.setState(state => ({ watched: !state.watched }));
-  }
+  //UNDO: uncomment this below to undo what i've done
+  // watched(event) {
+  //   this.setState(state => ({ watched: !state.watched }));
+  // }
 
   movieHandler(event) {
     this.setState({ newMovie: event.target.value });
@@ -52,7 +56,7 @@ class App extends React.Component {
   movieSubmit(event) {
     event.preventDefault();
     var newMovieList = this.state.movies.slice();
-    newMovieList.push({ title: this.state.newMovie });
+    newMovieList.push({ title: this.state.newMovie, watched: "false" });
     console.log(newMovieList);
     this.setState({ movies: newMovieList });
   }
@@ -85,12 +89,16 @@ class App extends React.Component {
           {this.state.movies
             .filter(searchingFor(this.state.movie))
             .map(movie => (
-              <ul className="moviebox">
-                {movie.title}
-                <button onClick={this.watched}>
-                  {this.state.watched ? "watched" : "unwatched"}
-                </button>
-              </ul>
+              //UNDO: delete below to undo what i've done
+              <MovieListItem movie={movie} />
+              //UNDO: uncomment this below to undo what i've done
+              // <ul className="moviebox">
+              //   {movie.title}
+              //   <button onClick={this.watched}>
+              //     {console.log(this.state.movie.watched)}
+              //     {this.state.movie.watched ? "watched" : "unwatched"}
+              //   </button>
+              // </ul>
             ))}
         </div>
       </div>
