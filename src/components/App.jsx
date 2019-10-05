@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import movies from "./movieList.jsx";
 import MovieListItem from "./movieListItem.jsx";
-// import Axios from 'axios';
+import axios from "axios";
 // import LocalStorage from 'localstorage'
 
 function searchingFor(movie) {
@@ -28,17 +28,28 @@ class App extends React.Component {
     // this.watched = this.watched.bind(this);
   }
 
-  // componentDidMount() {
-  //   LocalStorage.getItem('result'
-  //     .then((result) => this.setState({movies: JSON.parse(result)})
-  // .catch((err) => console.log(err))
-
-  //   Axios.get('www.api.com')
-  //     .then((result) => {
-  //       const stringifyData = JSON.stringify(result)
-  //       LocalStorage.setItem('result', stringifyData)
-  //     })
-  // }
+  componentDidMount() {
+    let mutatedMovies;
+    axios
+      .get(
+        "https://api.themoviedb.org/3/movie/popular?api_key=3975dfb6ec3adee97ea879d10e9e18ec"
+      )
+      .then(result => {
+        console.log("imdb response", result.data.results);
+        mutatedMovies = result.data.results.map(movie => {
+          return {
+            title: movie.title,
+            releaseDate: movie.release_date,
+            posterPath: `http://image.tmdb.org/t/p/w185/${movie.poster_path}`,
+            overview: movie.overview,
+            watched: false
+          };
+        });
+        // const movies = result.data.results;
+        this.setState({ movies: mutatedMovies });
+        console.log("movies:", { movies });
+      });
+  }
 
   //UNDO: uncomment this below to undo what i've done
   // watched(event) {
@@ -57,7 +68,6 @@ class App extends React.Component {
     event.preventDefault();
     var newMovieList = this.state.movies.slice();
     newMovieList.push({ title: this.state.newMovie, watched: "false" });
-    console.log(newMovieList);
     this.setState({ movies: newMovieList });
   }
 
