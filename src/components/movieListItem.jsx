@@ -7,11 +7,20 @@ class MovieListItem extends React.Component {
       watched: false
     };
     this.watched = this.watched.bind(this);
+    // this.renderWatchedTag = this.renderWatchedTag.bind(this);
   }
 
   watched() {
     this.setState(prevState => ({ watched: !prevState.watched }));
   }
+
+  // renderWatchedTag() {
+  //   if (this.props.movie.watched) {
+  //     <p>watched</p>
+  //   } else {
+  //     <p>unwatched</p>
+  //   }
+  // }
   // movielist.map((movie) => {
   //   `${movie.title} ${movie.overview}`
   // }
@@ -20,15 +29,16 @@ class MovieListItem extends React.Component {
       <ul className="moviebox">
         <div>
           <h1>{this.props.movie.title}</h1>
-          <p>{this.props.movie.release_date}</p>
+          <p>{this.props.movie.releaseDate}</p>
           <button onClick={() => this.watched()}>
             {console.log(this.state.watched)}
+            {/* {this.renderWatchedTag()} */}
             {this.state.watched ? "watched" : "unwatched"}
           </button>
           <div>
             <img src={this.props.movie.posterPath} />
           </div>
-          <ul>Summary: {this.props.movie.overview}</ul>
+          <ul>Summarsdfasdfadfy: {this.props.movie.overview}</ul>
         </div>
       </ul>
     );

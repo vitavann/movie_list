@@ -14,13 +14,16 @@ const getAllMovies = (req, res) => {
 
 // post method
 const postToMovies = (req, res) => {
-  console.log("request body:", req);
-  const queryString = `INSERT INTO movies (title) VALUES (${req.body.title});`;
+  const queryString = `INSERT INTO movies (title, releaseDate, posterPath, overview, watched) VALUES (${db.escape(
+    req.title
+  )}, ${db.escape(req.releaseDate)}, ${db.escape(req.posterPath)}, ${db.escape(
+    req.overview
+  )}, ${db.escape(req.watched)});`;
   db.query(queryString, (err, results) => {
     if (err) {
-      res.status(500).send(err);
+      console.log(err);
     } else {
-      res.status(200).send(results);
+      results;
     }
   });
 };

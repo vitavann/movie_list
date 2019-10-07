@@ -1,9 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import movies from "./movieList.jsx";
 import MovieListItem from "./movieListItem.jsx";
 import axios from "axios";
-// import LocalStorage from 'localstorage'
 
 function searchingFor(movie) {
   return function(x) {
@@ -15,11 +13,11 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      movies: movies, //movie array
+      movies: [], //movie array
       newMovie: "", //empty search field for add movie input
-      movie: "" //empty search field for searching option8gg8
+      movie: "", //empty search field for searching option8gg8
       //UNDO: uncomment this line below to undo what i've done
-      // watched: movies.watched
+      watched: false
     };
     this.searchHandler = this.searchHandler.bind(this);
     this.movieHandler = this.movieHandler.bind(this);
@@ -30,25 +28,31 @@ class App extends React.Component {
 
   componentDidMount() {
     let mutatedMovies;
-    axios
-      .get(
-        "https://api.themoviedb.org/3/movie/popular?api_key=3975dfb6ec3adee97ea879d10e9e18ec"
-      )
-      .then(result => {
-        console.log("imdb response", result.data.results);
-        mutatedMovies = result.data.results.map(movie => {
-          return {
-            title: movie.title,
-            releaseDate: movie.release_date,
-            posterPath: `http://image.tmdb.org/t/p/w185/${movie.poster_path}`,
-            overview: movie.overview,
-            watched: false
-          };
-        });
-        // const movies = result.data.results;
-        this.setState({ movies: mutatedMovies });
-        console.log("movies:", { movies });
-      });
+    axios.get("http://localhost:3000/movies").then(res => {
+      if (res.data > 0) {
+        this.setState({ movies: res.data });
+      } else {
+        axios
+          .get(
+            "https://api.themoviedb.org/3/movie/popular?api_key=3975dfb6ec3adee97ea879d10e9e18ec"
+          )
+          .then(result => {
+            mutatedMovies = result.data.results.map(movie => {
+              return {
+                title: movie.title,
+                releaseDate: movie.release_date,
+                posterPath: `http://image.tmdb.org/t/p/w185/${movie.poster_path}`,
+                overview: movie.overview,
+                watched: false
+              };
+            });
+            this.setState({ movies: mutatedMovies });
+            axios
+              .post("http://localhost:3000/movie", mutatedMovies)
+              .then(res => console.log("res"));
+          });
+      }
+    });
   }
 
   //UNDO: uncomment this below to undo what i've done
@@ -69,6 +73,14 @@ class App extends React.Component {
     var newMovieList = this.state.movies.slice();
     newMovieList.push({ title: this.state.newMovie, watched: "false" });
     this.setState({ movies: newMovieList });
+  }
+
+  filterToWatched() {
+    this.setState({ watched: true });
+  }
+
+  filterToUnwatched() {
+    this.setState({ watched: false });
   }
 
   render() {
@@ -97,6 +109,7 @@ class App extends React.Component {
         </form>
         <div>
           {this.state.movies
+            // .filter(movie => movie.watched === this.state.watched)
             .filter(searchingFor(this.state.movie))
             .map(movie => (
               //UNDO: delete below to undo what i've done
